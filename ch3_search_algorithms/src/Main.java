@@ -1,77 +1,89 @@
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Main {
-
     public static void main(String[] args){
+        ArrayList<Node> nodes = new ArrayList<Node>();
+        ArrayList<Link> links = new ArrayList<Link>();
 
-        Node n1 = new Node(0,0,0, new LinkedList<Edge>());
-        Node n2 = new Node(50,50,1, new LinkedList<Edge>());
-        Node n3 = new Node(100,100,2, new LinkedList<Edge>());
-        Node n4 = new Node(150,150,3, new LinkedList<Edge>());
-        Node n5 = new Node(200,200,4, new LinkedList<Edge>());
+        Node n0 = new Node(0,3,false);
+        Node n1 = new Node(1,4,false);
+        Node n2 = new Node(2,10,false);
+        Node n3 = new Node(3,5,false);
+        Node n4 = new Node(4,6,false);
+        Node n5 = new Node(5,2,true);
+        Node n6 = new Node(6,3,false);
+        Node n7 = new Node(7,11,false);
+        Node n8 = new Node(8,7,false);
 
-        LinkedList<Node> nodes = new LinkedList<Node>();
+        Link l01 = new Link(n0,n1,4);
+        Link l07 = new Link(n0,n7,8);
+        Link l17 = new Link(n1,n7,11);
+        Link l12 = new Link(n1,n2,8);
+        Link l28 = new Link(n2,n8,2);
+        //Link l25 = new Link(n2,n5,4);
+        Link l23 = new Link(n2,n3,7);
+        Link l34 = new Link(n3,n4,9);
+        //Link l35 = new Link(n3,n5,14);
+        //Link l45 = new Link(n4,n5,10);
+        Link l56 = new Link(n5,n6,2);
+        Link l68 = new Link(n6,n8,6);
+        Link l67 = new Link(n6,n7,1);
+        Link l78 = new Link(n7,n8,7);
+
+        nodes.add(n0);
         nodes.add(n1);
         nodes.add(n2);
         nodes.add(n3);
         nodes.add(n4);
         nodes.add(n5);
+        nodes.add(n6);
+        nodes.add(n7);
+        nodes.add(n8);
 
-        Graph g = new Graph(nodes, new LinkedList<Edge>());
-        JFrame frame = new JFrame();
-        frame.setBounds(0,0,1000,1000);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(frame);
+        links.add(l01);
+        links.add(l07);
+        links.add(l17);
+        links.add(l12);
+        links.add(l28);
+        //links.add(l25);
+        links.add(l23);
+        links.add(l34);
+        //links.add(l35);
+        //links.add(l45);
+        links.add(l56);
+        links.add(l68);
+        links.add(l67);
+        links.add(l78);
 
-        for(int i=0;i<nodes.size();i++){
-            frame.add(nodes.get(i));
-            frame.setVisible(true);
+        //Runs through each link, adds each to the other's neighbors list and vice versa
+        for(int i=0;i<links.size();i++){
+            Node parent = links.get(i).get_parent();
+            Node child = links.get(i).get_child();
+            if(!parent.get_neighbors().contains(child)){
+                parent.add_neighbors(child);
+            }
+            if(!child.get_neighbors().contains(parent)){
+                child.add_neighbors(parent);
+            }
         }
 
-        class JFrameEventListener implements KeyListener, MouseListener, MouseMotionListener {
-            boolean shift_down = false;
-            Node selected_node = null;
 
-            public void keyTyped(KeyEvent e){}
-            public void keyPressed(KeyEvent e){}
-            public void keyReleased(KeyEvent e){}
+        /*for(int i=0;i<nodes.size();i++){
+            nodes.get(i).print_neighbors();
+        }*/
 
-            public void mouseClicked(MouseEvent e){}
-            public void mouseEntered(MouseEvent e){}
-            public void mouseExited(MouseEvent e){}
-            public void mousePressed(MouseEvent e){
-                double ajr_x = e.getX();
-                double ajr_y = e.getY();
-                for(int i=0;i<nodes.size();i++){
-                    double distance = Math.sqrt(Math.pow(ajr_x-nodes.get(i).getCircle().getCenterX(),2)+Math.pow(ajr_y-nodes.get(i).getCircle().getCenterY(),2));
-                    if(distance <= (nodes.get(i).getDiam()/2)){
-                        selected_node = nodes.get(i);
-                        System.out.println(selected_node.getID());
-                    } else {
-                        System.out.println(distance);
-                        System.out.println("("+ajr_x+", "+ajr_y+")");
-                        System.out.println("("+nodes.get(i).getCircle().getCenterX()+", "+nodes.get(i).getCircle().getCenterY()+")");
-                    }
-                }
-            }
+        Graph g = new Graph(nodes, links);
+        //Setting up timer to measure performance of each search algorithm
 
-            public void mouseReleased(MouseEvent e){
-                if(selected_node != null){
-                    selected_node = null;
-                }
-            }
-            public void mouseMoved(MouseEvent e){}
-            public void mouseDragged(MouseEvent e){}
-        }
+        long init = System.nanoTime();
+        //System.out.println(g.breadth_first().get_index());
+        System.out.println(g.greedy_best_first(nodes.get(0)));
+        long end = System.nanoTime();
+        long elapsed = end - init;
+        System.out.println("This algorithm was completed in " + elapsed + " nanoseconds");
 
-        JFrameEventListener j = new JFrameEventListener();
-        frame.addKeyListener(j);
-        frame.addMouseListener(j);
-        frame.addMouseMotionListener(j);
+        //System.out.println(g.depth_first(nodes.get(0)).get_index());
+
     }
 }
 
-
-//Something wrong with the relative coordinates :(
