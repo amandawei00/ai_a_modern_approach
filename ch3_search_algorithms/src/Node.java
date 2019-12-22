@@ -3,9 +3,10 @@ import java.util.ArrayList;
 public class Node {
     boolean flag; //t/f end, n0 will always be the start
     int index;
-    int distance;
+    int distance; // from root node
     boolean examined;
     ArrayList<Node> neighbors;
+
     public Node(int n, int distance, boolean flag){
         this.index = n;
         this.neighbors = new ArrayList<Node>();
@@ -55,7 +56,7 @@ public class Node {
         return examined;
     }
 
-
+//given a list of nodes adjacent to this node, this method will return a new list of nodes from the original list which have not yet been examined by the searcher
     public ArrayList<Node> unexamined(ArrayList<Node> potentials){
         ArrayList<Node> unexamined_list = new ArrayList<Node>();
         for(int i=0;i<potentials.size();i++){

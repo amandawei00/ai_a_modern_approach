@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+// to do:
+// 1. graphical demonstration
+
 public class Main {
     public static void main(String[] args){
         ArrayList<Node> nodes = new ArrayList<Node>();
