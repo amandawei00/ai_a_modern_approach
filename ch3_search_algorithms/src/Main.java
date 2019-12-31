@@ -80,7 +80,7 @@ public class Main {
 
         long init = System.nanoTime();
         //System.out.println(g.breadth_first().get_index());
-        System.out.println(g.greedy_best_first(nodes.get(0)));
+        System.out.println(g.breadth_first());
         long end = System.nanoTime();
         long elapsed = end - init;
         System.out.println("This algorithm was completed in " + elapsed + " nanoseconds");

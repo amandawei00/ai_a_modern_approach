@@ -94,14 +94,21 @@ public class Graph {
         return null;
     }
 
-    public Node uniform_cost(){
-        return null;
-    }
-    public Node iterative_deepening_depth_first(){
+// "sidesteps" issue of choosing good depth limit by trying all depth limits.
+// optimal and complete like breadth first search, w/ modest memory requirements of depth-first search
+//preferred search method for large search space and unknown solution depth
+    public Node iterative_deepening_depth_first(Node n0){ //performs iterative deepening depth first search given an initial node n0
+        boolean found = false;
+        int search_depth = 1;
+        while(found==false) {
+            
+            search_depth++;
+        }
         return null;
     }
 
     public Node bidirectional(){
+
         return null;
     }
 

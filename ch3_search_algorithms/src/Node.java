@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Node {
-    boolean flag; //t/f end, n0 will always be the start
-    int index;
+    boolean flag; // in the graph, only one node will have flag = True. When search encounters this Node, the search is complete.
+    int index; // Node identifier in the graph
     int distance; // from root node
     boolean examined;
     ArrayList<Node> neighbors;
